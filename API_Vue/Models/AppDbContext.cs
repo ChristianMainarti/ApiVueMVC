@@ -13,5 +13,7 @@ namespace API_Vue.Models
         }
 
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Estoque> Estoques { get; set; }
     }
 }

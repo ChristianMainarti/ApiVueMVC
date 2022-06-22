@@ -150,3 +150,8 @@ C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Clientes\Details.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Clientes\Edit.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Clientes\Index.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Produtos\Create.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Produtos\Delete.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Produtos\Details.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Produtos\Edit.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Produtos\Index.cshtml.g.cs
