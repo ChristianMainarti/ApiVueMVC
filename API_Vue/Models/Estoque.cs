@@ -12,6 +12,7 @@ namespace API_Vue.Models
         { }
 
         public int EstoqueId { get; set; }
+        public string NomeEstoque { get; set; }
         public int CodProduto { get; set; }
         public float Quantidade { get; set; }
 

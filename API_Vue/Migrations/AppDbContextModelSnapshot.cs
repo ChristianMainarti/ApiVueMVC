@@ -40,6 +40,21 @@ namespace API_Vue.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("API_Vue.Models.Departamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departamentos");
+                });
+
             modelBuilder.Entity("API_Vue.Models.Estoque", b =>
                 {
                     b.Property<int>("EstoqueId")
@@ -49,6 +64,9 @@ namespace API_Vue.Migrations
 
                     b.Property<int>("CodProduto")
                         .HasColumnType("int");
+
+                    b.Property<string>("NomeEstoque")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Quantidade")
                         .HasColumnType("real");
@@ -68,6 +86,9 @@ namespace API_Vue.Migrations
                     b.Property<int?>("EstoqueId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Imagem")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Nome")
                         .HasColumnType("int");
 
@@ -81,6 +102,61 @@ namespace API_Vue.Migrations
                     b.ToTable("Produtos");
                 });
 
+            modelBuilder.Entity("API_Vue.Models.RegistroVenda", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Montante")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VendedorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendedorId");
+
+                    b.ToTable("RegistroVendas");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.Vendedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DataNasc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DepartamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("SalarioBase")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartamentoId");
+
+                    b.ToTable("Vendedor");
+                });
+
             modelBuilder.Entity("API_Vue.Models.Produto", b =>
                 {
                     b.HasOne("API_Vue.Models.Estoque", "Estoque")
@@ -88,6 +164,34 @@ namespace API_Vue.Migrations
                         .HasForeignKey("EstoqueId");
 
                     b.Navigation("Estoque");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.RegistroVenda", b =>
+                {
+                    b.HasOne("API_Vue.Models.Vendedor", "Vendedor")
+                        .WithMany("Vendas")
+                        .HasForeignKey("VendedorId");
+
+                    b.Navigation("Vendedor");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.Vendedor", b =>
+                {
+                    b.HasOne("API_Vue.Models.Departamento", "Departamento")
+                        .WithMany("Vendedores")
+                        .HasForeignKey("DepartamentoId");
+
+                    b.Navigation("Departamento");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.Departamento", b =>
+                {
+                    b.Navigation("Vendedores");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.Vendedor", b =>
+                {
+                    b.Navigation("Vendas");
                 });
 #pragma warning restore 612, 618
         }
