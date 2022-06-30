@@ -160,3 +160,9 @@ C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Estoques\Details.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Estoques\Edit.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Estoques\Index.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Departamentos\Create.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Departamentos\Delete.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Departamentos\Details.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Departamentos\Edit.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Departamentos\Index.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Vendedores\Index.cshtml.g.cs
