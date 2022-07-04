@@ -12,6 +12,7 @@ namespace API_Vue.Models
         public DateTime DataNasc { get; set; }
         public double SalarioBase { get; set; }
         public Departamento Departamento { get; set; }
+        public int DepartamentoId { get; set; }
         public ICollection<RegistroVenda> Vendas { get; set; } = new List<RegistroVenda>();
 
         public Vendedor() 
@@ -42,7 +43,7 @@ namespace API_Vue.Models
         {
             return Vendas
                 .Where(rv => rv.Data >= inicio && rv.Data <= final)
-                .Sum(rv => rv.Montante);
+                .Sum(rv => rv.Montante);    
         }
 
     }

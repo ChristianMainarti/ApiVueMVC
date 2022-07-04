@@ -3,21 +3,51 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API_Vue.Migrations
 {
-    public partial class Outras_Entidades : Migration
+    public partial class refatoraçãoModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CPF = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Departamentos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TVendas = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departamentos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Estoques",
+                columns: table => new
+                {
+                    EstoqueId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantidade = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Estoques", x => x.EstoqueId);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,7 +60,7 @@ namespace API_Vue.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DataNasc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SalarioBase = table.Column<double>(type: "float", nullable: false),
-                    DepartamentoId = table.Column<int>(type: "int", nullable: true)
+                    DepartamentoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +70,29 @@ namespace API_Vue.Migrations
                         column: x => x.DepartamentoId,
                         principalTable: "Departamentos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produtos",
+                columns: table => new
+                {
+                    ProdutoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Preco = table.Column<float>(type: "real", nullable: false),
+                    Imagem = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EstoqueId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produtos", x => x.ProdutoId);
+                    table.ForeignKey(
+                        name: "FK_Produtos_Estoques_EstoqueId",
+                        column: x => x.EstoqueId,
+                        principalTable: "Estoques",
+                        principalColumn: "EstoqueId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,6 +118,11 @@ namespace API_Vue.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Produtos_EstoqueId",
+                table: "Produtos",
+                column: "EstoqueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RegistroVendas_VendedorId",
                 table: "RegistroVendas",
                 column: "VendedorId");
@@ -79,7 +136,16 @@ namespace API_Vue.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Clientes");
+
+            migrationBuilder.DropTable(
+                name: "Produtos");
+
+            migrationBuilder.DropTable(
                 name: "RegistroVendas");
+
+            migrationBuilder.DropTable(
+                name: "Estoques");
 
             migrationBuilder.DropTable(
                 name: "Vendedor");

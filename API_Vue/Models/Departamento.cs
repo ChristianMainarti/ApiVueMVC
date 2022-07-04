@@ -10,19 +10,25 @@ namespace API_Vue.Models
         public string Nome { get; set;}
         public ICollection<Vendedor> Vendedores { get; set; } = new List<Vendedor>();
 
-        public Departamento(int id, string nome)
+        public double TVendas { get; set; }
+
+        public Departamento()
+        {
+        }
+        public Departamento(int id, string nome, DateTime inicio, DateTime final)
         {
             Id = id;
             Nome = nome;
+            TotalVendas(inicio, final);
         }
         public void AdicionarVendedor(Vendedor vendedor) 
         {
             Vendedores.Add(vendedor);
         }
 
-        public double TotalVendas(DateTime inicio, DateTime final) 
+        public void TotalVendas(DateTime inicio, DateTime final) 
         {
-            return Vendedores.
+            TVendas = Vendedores.
                 Sum(vend => vend.
                     TotalVendas(inicio, final));
         }

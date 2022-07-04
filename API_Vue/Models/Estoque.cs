@@ -12,9 +12,13 @@ namespace API_Vue.Models
         { }
 
         public int EstoqueId { get; set; }
-        public string NomeEstoque { get; set; }
-        public int CodProduto { get; set; }
-        public float Quantidade { get; set; }
+        public string Nome { get; set; }
 
+        //[ForeignKey("Produto")]
+        //public int ProdutoId { get; set; }
+        //public virtual Produto Produto { get; set; }
+
+        public float Quantidade { get; set; }
+        public virtual ICollection<Produto> Produtos { get; set; } = new List<Produto>();
     }
 }

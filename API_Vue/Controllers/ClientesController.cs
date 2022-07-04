@@ -53,7 +53,7 @@ namespace API_Vue.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,CPF,Telefone")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("ProdutoId,Nome,CPF,Telefone")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace API_Vue.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Telefone")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ProdutoId,Nome,CPF,Telefone")] Cliente cliente)
         {
             if (id != cliente.Id)
             {

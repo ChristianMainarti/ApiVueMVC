@@ -50,6 +50,9 @@ namespace API_Vue.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("TVendas")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.ToTable("Departamentos");
@@ -62,10 +65,7 @@ namespace API_Vue.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CodProduto")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NomeEstoque")
+                    b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Quantidade")
@@ -83,14 +83,14 @@ namespace API_Vue.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EstoqueId")
+                    b.Property<int>("EstoqueId")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagem")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Nome")
-                        .HasColumnType("int");
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Preco")
                         .HasColumnType("real");
@@ -138,7 +138,7 @@ namespace API_Vue.Migrations
                     b.Property<DateTime>("DataNasc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartamentoId")
+                    b.Property<int>("DepartamentoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -160,8 +160,10 @@ namespace API_Vue.Migrations
             modelBuilder.Entity("API_Vue.Models.Produto", b =>
                 {
                     b.HasOne("API_Vue.Models.Estoque", "Estoque")
-                        .WithMany()
-                        .HasForeignKey("EstoqueId");
+                        .WithMany("Produtos")
+                        .HasForeignKey("EstoqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Estoque");
                 });
@@ -179,7 +181,9 @@ namespace API_Vue.Migrations
                 {
                     b.HasOne("API_Vue.Models.Departamento", "Departamento")
                         .WithMany("Vendedores")
-                        .HasForeignKey("DepartamentoId");
+                        .HasForeignKey("DepartamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Departamento");
                 });
@@ -187,6 +191,11 @@ namespace API_Vue.Migrations
             modelBuilder.Entity("API_Vue.Models.Departamento", b =>
                 {
                     b.Navigation("Vendedores");
+                });
+
+            modelBuilder.Entity("API_Vue.Models.Estoque", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("API_Vue.Models.Vendedor", b =>
