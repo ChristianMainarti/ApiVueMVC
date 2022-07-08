@@ -1,6 +1,4 @@
-using System;
-
-namespace API_Vue.Models
+namespace API_Vue.Models.ViewModels
 {
     public class ErrorViewModel
     {

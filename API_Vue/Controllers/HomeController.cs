@@ -1,4 +1,4 @@
-﻿using API_Vue.Models;
+﻿using API_Vue.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

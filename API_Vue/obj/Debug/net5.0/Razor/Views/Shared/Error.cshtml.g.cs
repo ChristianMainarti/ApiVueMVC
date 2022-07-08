@@ -21,7 +21,7 @@ using API_Vue;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\Views\_ViewImports.cshtml"
-using API_Vue.Models;
+using API_Vue.Models.ViewModels;
 
 #line default
 #line hidden

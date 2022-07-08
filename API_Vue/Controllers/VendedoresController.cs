@@ -1,19 +1,18 @@
 ﻿using API_Vue.Models;
 using API_Vue.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API_Vue.Models.ViewModels;
 
 namespace API_Vue.Controllers
 {
     public class VendedoresController : Controller
     {
         private readonly VendedorService _vendedorService;
-        public VendedoresController(VendedorService vendedorService)
+        private readonly DepartamentoService _departamentoService;
+        public VendedoresController(VendedorService vendedorService, DepartamentoService departamentoService)
         {
             _vendedorService = vendedorService;
+            _departamentoService = departamentoService;
         }
 
         // GET: Vendedores
@@ -26,7 +25,9 @@ namespace API_Vue.Controllers
         // GET: Vendedores/Create
         public IActionResult Create()
         {
-            return View();
+            var departamentos = _departamentoService.FindAll();
+            var viewModel = new VendedorViewModel { Departamentos = departamentos };
+            return View(viewModel);
         }
 
         // POST: Vendedores/Create
@@ -36,13 +37,30 @@ namespace API_Vue.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("ProdutoId, Nome")] Vendedor vendedor)
         {
-            if (ModelState.IsValid)
-            {
-                _vendedorService.Insert(vendedor);
-                return RedirectToAction(nameof(Index));
-            }
+            _vendedorService.Insert(vendedor);
+            return RedirectToAction(nameof(Index));  
+        }
 
-            return View(vendedor);
+        // GET: Vendedores/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var obj = _vendedorService.FindById(id.Value);
+            if (obj == null)
+                return NotFound();
+
+            return View(obj);
+        }
+
+        // POST: Vendedores/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id) 
+        {
+            _vendedorService.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

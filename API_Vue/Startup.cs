@@ -31,6 +31,7 @@ namespace API_Vue
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<VendedorService>();
+            services.AddScoped<DepartamentoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

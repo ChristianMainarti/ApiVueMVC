@@ -152,3 +152,4 @@ C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Clientes\Index.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Vendedores\Index.cshtml.g.cs
 C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Vendedores\Create.cshtml.g.cs
+C:\Users\SAGATECH\Desktop\.net vue.js\WebApi_MVC\API_Vue\obj\Debug\net5.0\Razor\Views\Vendedores\Delete.cshtml.g.cs
