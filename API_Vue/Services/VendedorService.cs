@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using API_Vue.Models;
+using Microsoft.EntityFrameworkCore;
+using API_Vue.Services.Exceptions;
 
 namespace API_Vue.Services
 {
@@ -27,7 +28,7 @@ namespace API_Vue.Services
 
         public Vendedor FindById(int id)
         {
-            return _context.Vendedor.FirstOrDefault(obj => obj.Id == id);
+            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault();
         }
 
         public void Remove(int id)
@@ -35,6 +36,22 @@ namespace API_Vue.Services
             var obj = _context.Vendedor.Find(id);
             _context.Vendedor.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Vendedor obj)
+        {
+            if (!_context.Vendedor.Any(x => x.Id == obj.Id))
+                throw new NotFoundException("Id Not Found");
+
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException(e.Message);
+            }
         }
     }
 }

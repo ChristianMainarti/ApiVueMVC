@@ -2,6 +2,9 @@
 using API_Vue.Services;
 using Microsoft.AspNetCore.Mvc;
 using API_Vue.Models.ViewModels;
+using System.Collections.Generic;
+using API_Vue.Services.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Vue.Controllers
 {
@@ -38,7 +41,7 @@ namespace API_Vue.Controllers
         public IActionResult Create([Bind("ProdutoId, Nome")] Vendedor vendedor)
         {
             _vendedorService.Insert(vendedor);
-            return RedirectToAction(nameof(Index));  
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Vendedores/Delete/5
@@ -57,10 +60,55 @@ namespace API_Vue.Controllers
         // POST: Vendedores/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
+
+
             _vendedorService.Remove(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Vendedores/Edit/5
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var obj = _vendedorService.FindById(id.Value);
+            if (obj == null)
+                return NotFound();
+
+            List<Departamento> departamentos = _departamentoService.FindAll();
+            VendedorViewModel vendedorViewModel = new VendedorViewModel { Vendedor = obj, Departamentos = departamentos };
+            return View(vendedorViewModel);
+        }
+
+        // POST: Vendedores/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(int id, Vendedor vendedor)
+        {
+            if (id != vendedor.Id)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _vendedorService.Update(vendedor);
+                }
+                catch (NotFoundException e)
+                {
+                    throw new NotFoundException(e.Message);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vendedor);
         }
     }
 }
