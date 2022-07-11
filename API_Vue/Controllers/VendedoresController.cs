@@ -5,6 +5,7 @@ using API_Vue.Models.ViewModels;
 using System.Collections.Generic;
 using API_Vue.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace API_Vue.Controllers
 {
@@ -60,10 +61,8 @@ namespace API_Vue.Controllers
         // POST: Vendedores/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-
-
             _vendedorService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
@@ -109,6 +108,17 @@ namespace API_Vue.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(vendedor);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel()
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }
