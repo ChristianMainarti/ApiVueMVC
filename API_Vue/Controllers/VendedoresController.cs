@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using API_Vue.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System;
 
 namespace API_Vue.Controllers
 {
@@ -49,11 +50,11 @@ namespace API_Vue.Controllers
         public IActionResult Delete(int? id)
         {
             if (id == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not provided"});
 
             var obj = _vendedorService.FindById(id.Value);
             if (obj == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not found" });
 
             return View(obj);
         }
@@ -71,11 +72,11 @@ namespace API_Vue.Controllers
         public IActionResult Edit(int? id)
         {
             if (id == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
 
             var obj = _vendedorService.FindById(id.Value);
             if (obj == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not found" });
 
             List<Departamento> departamentos = _departamentoService.FindAll();
             VendedorViewModel vendedorViewModel = new VendedorViewModel { Vendedor = obj, Departamentos = departamentos };
@@ -89,7 +90,7 @@ namespace API_Vue.Controllers
         public IActionResult Edit(int id, Vendedor vendedor)
         {
             if (id != vendedor.Id)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id mismatch" });
 
             if (ModelState.IsValid)
             {
@@ -97,14 +98,11 @@ namespace API_Vue.Controllers
                 {
                     _vendedorService.Update(vendedor);
                 }
-                catch (NotFoundException e)
+                catch (ApplicationException e)
                 {
-                    throw new NotFoundException(e.Message);
+                    return RedirectToAction(nameof(Error), new {message = e.Message});
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return BadRequest();
-                }
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(vendedor);
