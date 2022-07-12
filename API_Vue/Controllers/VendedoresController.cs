@@ -7,6 +7,7 @@ using API_Vue.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System;
+using System.Threading.Tasks;
 
 namespace API_Vue.Controllers
 {
@@ -21,16 +22,16 @@ namespace API_Vue.Controllers
         }
 
         // GET: Vendedores
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _vendedorService.FindAll();
+            var list = await _vendedorService.FindAllSync();
             return View(list);
         }
 
         // GET: Vendedores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departamentos = _departamentoService.FindAll();
+            var departamentos = await _departamentoService.FindAllSync();
             var viewModel = new VendedorViewModel { Departamentos = departamentos };
             return View(viewModel);
         }
@@ -40,11 +41,11 @@ namespace API_Vue.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ProdutoId, Nome")] Vendedor vendedor)
+        public async Task<IActionResult> Create([Bind("ProdutoId, Nome")] Vendedor vendedor)
         {
             if (!ModelState.IsValid) 
             {
-                var departments = _departamentoService.FindAll();
+                var departments = await _departamentoService.FindAllSync();
                 var viewModel = new VendedorViewModel { Vendedor = vendedor, Departamentos = departments };
                 return View(viewModel);
             }
@@ -54,12 +55,12 @@ namespace API_Vue.Controllers
         }
 
         // GET: Vendedores/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id not provided"});
 
-            var obj = _vendedorService.FindById(id.Value);
+            var obj = await  _vendedorService.FindByIdAsync(id.Value);
             if (obj == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id not found" });
 
@@ -69,23 +70,30 @@ namespace API_Vue.Controllers
         // POST: Vendedores/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _vendedorService.Remove(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _vendedorService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         // GET: Vendedores/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
 
-            var obj = _vendedorService.FindById(id.Value);
+            var obj = await _vendedorService.FindByIdAsync(id.Value);
             if (obj == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id not found" });
 
-            List<Departamento> departamentos = _departamentoService.FindAll();
+            List<Departamento> departamentos = await _departamentoService.FindAllSync();
             VendedorViewModel vendedorViewModel = new VendedorViewModel { Vendedor = obj, Departamentos = departamentos };
             return View(vendedorViewModel);
         }
@@ -94,7 +102,7 @@ namespace API_Vue.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Edit(int id, Vendedor vendedor)
+        public async Task<IActionResult> Edit(int id, Vendedor vendedor)
         {
             if (id != vendedor.Id)
                 return RedirectToAction(nameof(Error), new { Message = "Id mismatch" });
@@ -103,7 +111,7 @@ namespace API_Vue.Controllers
             {
                 try
                 {
-                    _vendedorService.Update(vendedor);
+                    _vendedorService.UpdateAsync(vendedor);
                 }
                 catch (ApplicationException e)
                 {
@@ -113,7 +121,7 @@ namespace API_Vue.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var departaments = _departamentoService.FindAll();
+            var departaments = await _departamentoService.FindAllSync();
             var viewModel = new VendedorViewModel { Vendedor = vendedor, Departamentos = departaments };
             return View(viewModel);
         }

@@ -1,6 +1,8 @@
 ﻿using API_Vue.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Vue.Services
 {
@@ -13,11 +15,10 @@ namespace API_Vue.Services
             _context = context;
         }
 
-        public List<Departamento> FindAll()
+        public async Task<List<Departamento>> FindAllSync()
         {
-            return _context.Departamentos.OrderBy(x => x.Nome).ToList();
+            return await _context.Departamentos.OrderBy(x => x.Nome).ToListAsync();
         }
-
 
     }
 }
