@@ -42,6 +42,13 @@ namespace API_Vue.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("ProdutoId, Nome")] Vendedor vendedor)
         {
+            if (!ModelState.IsValid) 
+            {
+                var departments = _departamentoService.FindAll();
+                var viewModel = new VendedorViewModel { Vendedor = vendedor, Departamentos = departments };
+                return View(viewModel);
+            }
+
             _vendedorService.Insert(vendedor);
             return RedirectToAction(nameof(Index));
         }
@@ -105,7 +112,10 @@ namespace API_Vue.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendedor);
+
+            var departaments = _departamentoService.FindAll();
+            var viewModel = new VendedorViewModel { Vendedor = vendedor, Departamentos = departaments };
+            return View(viewModel);
         }
 
         public IActionResult Error(string message)
