@@ -36,9 +36,19 @@ namespace API_Vue.Controllers
             return View(result);
         }
 
-        public IActionResult GroupSearch()
+        public async Task<IActionResult> GroupSearch(DateTime? minDate, DateTime? maxDate)
         {
-            return View();
+            if (!minDate.HasValue)
+                minDate = new DateTime(DateTime.Now.Year, 1, 1);
+
+            if (!maxDate.HasValue)
+                maxDate = DateTime.Now;
+
+            ViewData[""] = minDate.Value.ToString("yyyy-MM-dd");
+            ViewData[""] = maxDate.Value.ToString("yyyy-MM-dd");
+
+            var result = await _registroVendaService.FindByDateGroupingAsync(minDate, maxDate);
+            return View(result);
         }
     }
 }

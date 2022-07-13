@@ -26,11 +26,9 @@ namespace API_Vue.Models
             Vendedores.Add(vendedor);
         }
 
-        public void TotalVendas(DateTime inicio, DateTime final) 
+        public double TotalVendas(DateTime inicio, DateTime final) 
         {
-            TVendas = Vendedores.
-                Sum(vend => vend.
-                    TotalVendas(inicio, final));
+            return Vendedores.Sum(vend => vend.TotalVendas(inicio, final));
         }
     }
 }
